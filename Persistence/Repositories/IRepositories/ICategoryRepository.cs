@@ -8,6 +8,7 @@ namespace Dws.Note_one.Api.Persistence.Repositories.IRepositories
         Task AddAsync(Category category);
         Task<Category> FindByIdAsync(int id);
         void Update(Category category);
+        Task<Category> FindByNameAsync(string name);
 
         void Remove(Category category);
 

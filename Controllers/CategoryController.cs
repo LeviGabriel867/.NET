@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using Dws.Note_one.Api.Domain.Models;
-using Dws.Note_one.Api.Resource;
 using Dws.Note_one.Api.Services.IServices;
 using Dws.Note_one.Api.Resource;
 using Dws.Note_one.Api.Extension;

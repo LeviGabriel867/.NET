@@ -35,6 +35,10 @@ namespace Dws.Note_one.Api.Persistence.Repositories
         {
             _context.Categories.Remove(category);
         }
+        public async Task<Category> FindByNameAsync(string name)
+        {
+            return await _context.Categories.FirstOrDefaultAsync(c => c.Name == name);
+        }
 
     }
 }
