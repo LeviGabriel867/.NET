@@ -13,13 +13,13 @@ namespace Dws.Note_one.Api.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ICategoryRepository _categoryRepository; // Injete o repositório de categoria
+        private readonly ICategoryRepository _categoryRepository; 
 
         public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
-            _categoryRepository = categoryRepository; // Inicialize o repositório de categoria
+            _categoryRepository = categoryRepository; 
         }
 
         public async Task<ProductResponse> DeleteAsync(int id)
@@ -55,16 +55,14 @@ namespace Dws.Note_one.Api.Services
                     throw new KeyNotFoundException($"Product with ID {id} not found");
                 }
 
-                await _productRepository.DeleteByIdAsync(existProduct.Id);  //Chama o metodo do repositorio e usa o await
-                await _unitOfWork.SaveChangesAsync(); //Chama o metodo do UnitOfWork e usa o await
+                await _productRepository.DeleteByIdAsync(existProduct.Id);  
+                await _unitOfWork.SaveChangesAsync();
 
             }
             catch (Exception ex)
             {
-                // Trate a exceção aqui (log, por exemplo).
-                // Em um aplicativo real, você provavelmente não apenas imprimiria no console.
                 Console.WriteLine($"Error in DeleteByIdAsync: {ex.Message}");
-                throw; // Re-lança a exceção para que o chamador saiba que houve um erro.
+                throw; 
             }
         }
     
@@ -73,7 +71,6 @@ namespace Dws.Note_one.Api.Services
         {
             try
             {
-                // Validação: Verifica se a categoria existe.
                 var existingCategory = await _categoryRepository.FindByIdAsync(product.CategoryId);
                 if (existingCategory == null)
                 {
@@ -99,19 +96,15 @@ namespace Dws.Note_one.Api.Services
         {
             return await _productRepository.ListAsync();
         }
-        // Dentro da classe ProductService
 
         public async Task<IEnumerable<Product>> ListByCategoryNameAsync(string categoryName)
         {
-            // 1. Encontre a categoria pelo nome.
             var category = await _categoryRepository.FindByNameAsync(categoryName);
             if (category == null)
             {
-                // Categoria não encontrada, retorne uma lista vazia ou trate o erro.
-                return new List<Product>(); // Ou throw new Exception(...);
+                return new List<Product>();
             }
 
-            // 2. Use o ID da categoria encontrada para listar os produtos.
             return await _productRepository.ListByCategoryIdAsync(category.Id);
         }
 
@@ -119,14 +112,12 @@ namespace Dws.Note_one.Api.Services
         {
             try
             {
-                //Busca a categoria
                 var existingCategory = await _categoryRepository.FindByNameAsync(categoryName);
                 if (existingCategory == null)
                 {
                     return new ProductResponse($"Category with name '{categoryName}' not found.");
                 }
 
-                // Define a categoria ao produto  
                 product.Category = existingCategory;
                 product.CategoryId = existingCategory.Id;
 
